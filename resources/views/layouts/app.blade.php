@@ -77,16 +77,19 @@
         </nav>
 
         <main class="py-4">
-            @auth
             <div class="container">
+                @if (session()->has('success'))
+                <div class="alert alert-info">{{ session()->get('success') }}</div>
+                @endif
+                @auth
                 <div class="row">
                     <div class="col-4">
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <a href="/posts">Posts</a>
+                                <a href="{{ route('posts.index') }}">Posts</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="/categories">Categories</a>
+                                <a href="{{ route('categories.index') }}">Categories</a>
                             </li>
                         </ul>
                     </div>
