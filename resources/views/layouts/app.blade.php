@@ -86,10 +86,10 @@
                     <div class="col-4">
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <a href="{{ route('posts.index') }}">Posts</a>
+                                <a class="d-block" href="{{ route('posts.index') }}">Posts</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="{{ route('categories.index') }}">Categories</a>
+                                <a class="d-block" href="{{ route('categories.index') }}">Categories</a>
                             </li>
                         </ul>
                     </div>
