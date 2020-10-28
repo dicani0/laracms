@@ -25,7 +25,16 @@
                     </td>
                     <td>
                         <div class="btn-group">
+                            @if (!$post->trashed())
                             <a class="btn btn-info" href="{{ route('posts.edit', $post) }}">Edit</a>
+                            @else
+                            <form action="{{ route('restore-posts', $post) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-info">Restore</button>
+                            </form>
+
+                            @endif
                             <a onclick="deletePost({{ $post->id }}, '{{ $post->title }}')" class="btn btn-danger">{{ $post->trashed() ? 'Delete' : 'Trash' }}</a>
 
 

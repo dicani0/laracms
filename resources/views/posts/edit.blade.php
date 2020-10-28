@@ -2,7 +2,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        Add post!
+        Edit post!
     </div>
     <div class="card-body">
         @if ($errors->any())
@@ -12,24 +12,28 @@
         </div>
         @endforeach
         @endif
-        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" id="title" class="form-control" name="title">
+                <input type="text" id="title" class="form-control" name="title" value="{{ $post->title }}">
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea name="description" id="description" cols="30" rows="3" class="form-control"></textarea>
+                <textarea name="description" id="description" cols="30" rows="3" class="form-control">{{ $post->description }}</textarea>
             </div>
             <div class="form-group">
                 <label for="content">Content</label>
-                <input id="content" type="hidden" id="content" name="content">
+                <input id="content" type="hidden" id="content" name="content" value="{{ $post->content }}">
                 <trix-editor input="content"></trix-editor>
             </div>
             <div class="form-group">
                 <label for="published_at">Published at</label>
-                <input type="text" id="published_at" class="form-control" name="published_at">
+                <input type="text" id="published_at" class="form-control" name="published_at" value="{{ $post->published_at }}">
+            </div>
+            <div class="form-group">
+                <img src="{{ asset('storage/' . $post->image) }}" alt="" class="img-fluid">
             </div>
             <div class="form-group">
                 <label for="image">Image</label>
@@ -37,7 +41,7 @@
             </div>
             <div class="form-group">
                 <button class="btn btn-success">
-                    Add!
+                    Edit!
                 </button>
             </div>
         </form>

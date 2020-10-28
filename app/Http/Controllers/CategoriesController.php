@@ -39,8 +39,7 @@ class CategoriesController extends Controller
             'name' => 'required|unique:categories'
         ]);
         Category::create($request->all());
-        session()->flash('success', 'Category created successfully');
-
+        session()->flash('success', 'Category created successfully!');
         return redirect(route('categories.index'));
     }
 
@@ -92,7 +91,7 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        session()->flash('success', 'Deleted category successfully');
+        session()->flash('success', 'Deleted category successfully!');
         return redirect(route('categories.index'));
     }
 }

@@ -47,9 +47,10 @@ class PostsController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'content' => $request->content,
-            'image' => $imgPath
+            'image' => $imgPath,
+            'published_at' => $request->published_at
         ]);
-        session()->flash('success', 'Post created successfully');
+        session()->flash('success', 'Post created successfully!');
         return redirect(route('posts.index'));
     }
 
@@ -72,7 +73,7 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit')->with('post', $post);
     }
 
     /**
@@ -84,7 +85,15 @@ class PostsController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->only(['title', 'description', 'content', 'published_at']);
+        if ($request->hasFile('image')) {
+            $imgPath = $request->image->store('posts');
+            $post->deleteImage();
+            $data['image'] = $imgPath;
+        }
+        $post->update($data);
+        session()->flash('success', 'Post updated successfully!');
+        return redirect(route('posts.index'));
     }
 
     /**
@@ -97,13 +106,13 @@ class PostsController extends Controller
     {
         $post = Post::withTrashed()->find($id);
         if ($post->trashed()) {
-            Storage::delete($post->image);
+            $post->deleteImage();
             $post->forceDelete();
-            session()->flash('success', 'Post deleted successfully');
+            session()->flash('success', 'Post deleted successfully!');
             return redirect(route('trashed-posts.index'));
         } else {
             $post->delete();
-            session()->flash('success', 'Post trashed successfully');
+            session()->flash('success', 'Post trashed successfully!');
             return redirect(route('posts.index'));
         }
     }
@@ -116,5 +125,18 @@ class PostsController extends Controller
     public function trash()
     {
         return view('posts.index')->with('posts', Post::onlyTrashed()->get());
+    }
+
+    /**
+     * Restore trashed post
+     * 
+     * @param Post $post
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        Post::withTrashed()->find($id)->restore();
+        session()->flash('success', 'Post restored successfully!');
+        return redirect(route('posts.index'))->with('posts', Post::onlyTrashed()->get());
     }
 }
