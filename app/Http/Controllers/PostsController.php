@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
@@ -14,7 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
+        return view('posts.index')->with('posts', Post::all());
     }
 
     /**
@@ -24,7 +25,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -35,7 +36,21 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|unique:posts',
+            'description' => 'required',
+            'content' => 'required',
+            'image' => 'required|image'
+        ]);
+        $imgPath = $request->image->store('posts');
+        Post::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'content' => $request->content,
+            'image' => $imgPath
+        ]);
+        session()->flash('success', 'Post created successfully');
+        return redirect(route('posts.index'));
     }
 
     /**
@@ -75,11 +90,31 @@ class PostsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Post  $post
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        $post = Post::withTrashed()->find($id);
+        if ($post->trashed()) {
+            Storage::delete($post->image);
+            $post->forceDelete();
+            session()->flash('success', 'Post deleted successfully');
+            return redirect(route('trashed-posts.index'));
+        } else {
+            $post->delete();
+            session()->flash('success', 'Post trashed successfully');
+            return redirect(route('posts.index'));
+        }
+    }
+
+    /**
+     * Display a listing of the soft deleted resources.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        return view('posts.index')->with('posts', Post::onlyTrashed()->get());
     }
 }

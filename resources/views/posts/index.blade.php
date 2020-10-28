@@ -2,37 +2,51 @@
 @section('content')
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        Categories
-        <a href="{{ route('categories.create') }}" class="btn btn-primary">Add category</a>
+        Posts
+        <a href="{{ route('posts.create') }}" class="btn btn-primary">Add post</a>
     </div>
     <div class="card-body">
-        @if($categories->count()>0)
+        @if ($posts->count()>0)
         <table class="table">
             <thead>
-                <th>Name</th>
+                <td>Image</td>
+                <th>Title</th>
+                <th>Actions</th>
             </thead>
             <tbody>
-                @foreach ($categories as $category)
+                @foreach ($posts as $post)
                 <tr>
-                    <td class="d-flex justify-content-between align-items-center">
-                        {{ $category->name }}
+                    <td>
+                        <img class="img-fluid" src="{{ asset('storage/' . $post->image) }}" alt="">
+                    </td>
+                    <td>
+                        {{ $post->title }}
+
+                    </td>
+                    <td>
                         <div class="btn-group">
-                            <a class="btn btn-info" href="{{ route('categories.edit', $category) }}">Edit</a>
-                            <a class="btn btn-danger" onclick="deleteCategory({{ $category->id }}, '{{ $category->name }}')">Delete</a>
+                            <a class="btn btn-info" href="{{ route('posts.edit', $post) }}">Edit</a>
+                            <a onclick="deletePost({{ $post->id }}, '{{ $post->title }}')" class="btn btn-danger">{{ $post->trashed() ? 'Delete' : 'Trash' }}</a>
+
+
                         </div>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        @else
+        <div class="alert alert-danger">No posts found!</div>
+        @endif
+
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form action="" method="POST" id="deleteCategoryForm">
+                <form action="" method="POST" id="deletePostForm">
                     @csrf
                     @method('DELETE')
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Delete category</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Delete post</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -48,21 +62,16 @@
                 </form>
             </div>
         </div>
-        @else
-        <div class="alert alert-danger">No categories found!</div>
-        @endif
     </div>
 </div>
 @endsection
 @section('scripts')
 <script>
-    function deleteCategory(id, name){
-        var form = $('#deleteCategoryForm')[0];
-        // var form = document.getElementById('deleteCategoryForm');
-        $('#modalBody').html('Delete category ' + name);
-        form.action= '/categories/' + id;
+    function deletePost(id, title){
+        var form = $('#deletePostForm')[0];
+        $('#modalBody').html('Delete post ' + title);
+        form.action= '/posts/' + id;
         $('#deleteModal').modal('show');
-        console.log(form);
     }
 </script>
 @endsection
