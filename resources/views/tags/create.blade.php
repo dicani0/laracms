@@ -2,20 +2,19 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        Edit category!
+        Add tag!
     </div>
     <div class="card-body">
         @include('partials.error')
-        <form action="{{ route('categories.update', $category) }}" method="POST">
+        <form action="{{ route('tags.store') }}" method="POST">
             @csrf
-            @method('PUT')
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" id="name" class="form-control" name="name" value="{{ $category->name }}">
+                <input type="text" id="name" class="form-control" name="name">
             </div>
             <div class="form-group">
                 <button class="btn btn-success">
-                    Update!
+                    Add!
                 </button>
             </div>
         </form>

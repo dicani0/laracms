@@ -5,13 +5,7 @@
         Add post!
     </div>
     <div class="card-body">
-        @if ($errors->any())
-        @foreach ($errors->all() as $error)
-        <div class="alert alert-danger">
-            {{ $error }}
-        </div>
-        @endforeach
-        @endif
+        @include('partials.error')
         <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
@@ -19,8 +13,8 @@
                 <input type="text" id="title" class="form-control" name="title">
             </div>
             <div class="form-group">
-                <label for="category">Category</label>
-                <select name="category" id="category" class="form-control">
+                <label for="category_id">Category</label>
+                <select name="category_id" id="category_id" class="form-control">
                     @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
@@ -42,6 +36,14 @@
             <div class="form-group">
                 <label for="image">Image</label>
                 <input type="file" name="image" id="image">
+            </div>
+            <div class="form-group">
+                <label for="tags">Tags</label>
+                <select class="form-control" name="tags" id="tags" multiple>
+                    @foreach ($tags as $tag)
+                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
                 <button class="btn btn-success">

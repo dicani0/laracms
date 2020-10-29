@@ -11,6 +11,7 @@
             <thead>
                 <td>Image</td>
                 <th>Title</th>
+                <th>Category</th>
                 <th>Actions</th>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@
                         {{ $post->title }}
 
                     </td>
+                    <td>{{ $post->category->name }}</td>
                     <td>
                         <div class="btn-group">
                             @if (!$post->trashed())

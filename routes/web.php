@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,9 +24,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resources([
-    'categories' => CategoriesController::class,
-    'posts' => PostsController::class
-]);
-Route::get('trashed-posts', [PostsController::class, 'trash'])->name('trashed-posts.index');
-Route::put('/restore-post/{post}', [PostsController::class, 'restore'])->name('restore-posts');
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('categories', CategoriesController::class);
+    Route::resource('posts', PostsController::class);
+    Route::resource('tags', TagsController::class);
+    Route::get('trashed-posts', [PostsController::class, 'trash'])->name('trashed-posts.index');
+    Route::put('/restore-post/{post}', [PostsController::class, 'restore'])->name('restore-posts');
+});

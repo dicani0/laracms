@@ -5,19 +5,21 @@
         Edit post!
     </div>
     <div class="card-body">
-        @if ($errors->any())
-        @foreach ($errors->all() as $error)
-        <div class="alert alert-danger">
-            {{ $error }}
-        </div>
-        @endforeach
-        @endif
+        @include('partials.error')
         <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" id="title" class="form-control" name="title" value="{{ $post->title }}">
+            </div>
+            <div class="form-group">
+                <label for="category_id">Category</label>
+                <select name="category_id" id="category_id" class="form-control">
+                    @foreach ($categories as $category)
+                    <option {{ ($category->id==$post->category->id) ? 'selected' : '' }} value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
                 <label for="description">Description</label>

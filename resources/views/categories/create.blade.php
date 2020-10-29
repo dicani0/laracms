@@ -5,13 +5,7 @@
         Add category!
     </div>
     <div class="card-body">
-        @if ($errors->any())
-        @foreach ($errors->all() as $error)
-        <div class="alert alert-danger">
-            {{ $error }}
-        </div>
-        @endforeach
-        @endif
+        @include('partials.error')
         <form action="{{ route('categories.store') }}" method="POST">
             @csrf
             <div class="form-group">

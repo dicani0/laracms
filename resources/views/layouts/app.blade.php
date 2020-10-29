@@ -86,6 +86,13 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                @elseif (session()->has('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session()->get('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 @endif
                 @auth
                 <div class="row">
@@ -93,6 +100,9 @@
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <a class="d-block" href="{{ route('posts.index') }}">Posts</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a class="d-block" href="{{ route('tags.index') }}">Tags</a>
                             </li>
                             <li class="list-group-item">
                                 <a class="d-block" href="{{ route('categories.index') }}">Categories</a>

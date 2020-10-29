@@ -2,26 +2,24 @@
 @section('content')
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        Categories
-        <a href="{{ route('categories.create') }}" class="btn btn-primary">Add category</a>
+        Tags
+        <a href="{{ route('tags.create') }}" class="btn btn-primary">Add tag</a>
     </div>
     <div class="card-body">
-        @if($categories->count()>0)
+        @if($tags->count()>0)
         <table class="table">
             <thead>
                 <th>Name</th>
-                <th>Posts count</th>
                 <th class="text-right">Action</th>
             </thead>
             <tbody>
-                @foreach ($categories as $category)
+                @foreach ($tags as $tag)
                 <tr>
-                    <td>{{ $category->name }} </td>
-                    <td>{{ $category->posts()->count() }}</td>
+                    <td>{{ $tag->name }} </td>
                     <td class="text-right">
                         <div class="btn-group">
-                            <a class="btn btn-info" href="{{ route('categories.edit', $category) }}">Edit</a>
-                            <a class="btn btn-danger" onclick="deleteCategory({{ $category->id }}, '{{ $category->name }}')">Delete</a>
+                            <a class="btn btn-info" href="{{ route('tags.edit', $tag) }}">Edit</a>
+                            <a class="btn btn-danger" onclick="deletetag({{ $tag->id }}, '{{ $tag->name }}')">Delete</a>
                         </div>
                     </td>
                 </tr>
@@ -30,12 +28,12 @@
         </table>
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form action="" method="POST" id="deleteCategoryForm">
+                <form action="" method="POST" id="deletetagForm">
                     @csrf
                     @method('DELETE')
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Delete category</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Delete tag</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -52,18 +50,18 @@
             </div>
         </div>
         @else
-        <div class="alert alert-danger">No categories found!</div>
+        <div class="alert alert-danger">No tags found!</div>
         @endif
     </div>
 </div>
 @endsection
 @section('scripts')
 <script>
-    function deleteCategory(id, name){
-        var form = $('#deleteCategoryForm')[0];
-        // var form = document.getElementById('deleteCategoryForm');
-        $('#modalBody').html('Delete category ' + name);
-        form.action= '/categories/' + id;
+    function deletetag(id, name){
+        var form = $('#deletetagForm')[0];
+        // var form = document.getElementById('deletetagForm');
+        $('#modalBody').html('Delete tag ' + name);
+        form.action= '/tags/' + id;
         $('#deleteModal').modal('show');
         console.log(form);
     }
