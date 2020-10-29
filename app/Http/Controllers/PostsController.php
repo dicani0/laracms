@@ -51,8 +51,9 @@ class PostsController extends Controller
             'image' => 'required|image',
             'category_id' => 'required'
         ]);
+
         $imgPath = $request->image->store('posts');
-        Post::create([
+        $post = Post::create([
             'title' => $request->title,
             'description' => $request->description,
             'content' => $request->content,
@@ -60,6 +61,7 @@ class PostsController extends Controller
             'published_at' => $request->published_at,
             'category_id' => $request->category_id
         ]);
+        $post->tags()->attach($request->tags);
         session()->flash('success', 'Post created successfully!');
         return redirect(route('posts.index'));
     }
@@ -83,7 +85,7 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit')->with('post', $post)->with('categories', Category::all());
+        return view('posts.edit')->with('post', $post)->with('categories', Category::all())->with('tags', Tag::all());
     }
 
     /**
@@ -100,6 +102,9 @@ class PostsController extends Controller
             $imgPath = $request->image->store('posts');
             $post->deleteImage();
             $data['image'] = $imgPath;
+        }
+        if ($request->tags) {
+            $post->tags()->sync($request->tags);
         }
         $post->update($data);
         session()->flash('success', 'Post updated successfully!');
@@ -149,4 +154,10 @@ class PostsController extends Controller
         session()->flash('success', 'Post restored successfully!');
         return redirect(route('posts.index'))->with('posts', Post::onlyTrashed()->get());
     }
+    /**
+     * Checks if post has certain tag
+     * 
+     * @param Int $tagId
+     * @return bool
+     */
 }

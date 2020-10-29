@@ -10,12 +10,14 @@
         <table class="table">
             <thead>
                 <th>Name</th>
+                <th>Posts count</th>
                 <th class="text-right">Action</th>
             </thead>
             <tbody>
                 @foreach ($tags as $tag)
                 <tr>
                     <td>{{ $tag->name }} </td>
+                    <td>{{ $tag->posts()->count() }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <a class="btn btn-info" href="{{ route('tags.edit', $tag) }}">Edit</a>

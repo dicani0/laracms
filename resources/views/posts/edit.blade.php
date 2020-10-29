@@ -42,6 +42,18 @@
                 <input type="file" name="image" id="image">
             </div>
             <div class="form-group">
+                <label for="tags">Tags<small class="text-muted">(hold ctrl to select multiple tags)</small></label>
+                <select class="form-control" name="tags[]" id="tags" multiple>
+                    @foreach ($tags as $tag)
+                    <option @if ($post->hasTag($tag->id))
+                        selected
+                        @endif
+                        value="{{ $tag->id }}">{{ $tag->name }}</option>
+
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-success">
                     Edit!
                 </button>

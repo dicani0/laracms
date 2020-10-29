@@ -38,8 +38,8 @@
                 <input type="file" name="image" id="image">
             </div>
             <div class="form-group">
-                <label for="tags">Tags</label>
-                <select class="form-control" name="tags" id="tags" multiple>
+                <label for="tags">Tags<small class="text-muted">(hold ctrl to select multiple tags)</small></label>
+                <select class="form-control" name="tags[]" id="tags" multiple>
                     @foreach ($tags as $tag)
                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                     @endforeach
