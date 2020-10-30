@@ -90,8 +90,14 @@ class TagsController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        $tag->delete();
-        session()->flash('success', 'Deleted tag successfully!');
-        return redirect(route('tags.index'));
+        if ($tag->posts->count() > 0) {
+            \session()->flash('error', 'Tag cannot be deleted until it is assigned to posts(s)[' . $tag->posts->count() . ']');
+            return \redirect()->back();
+        } else {
+            $tag->delete();
+            \session()->flash('success', 'Deleted tag successfully!');
+            return \redirect(route('tags.index'));
+            return redirect(route('tags.index'));
+        }
     }
 }
