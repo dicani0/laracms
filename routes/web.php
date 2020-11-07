@@ -25,10 +25,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');;
-
+Route::resource('posts', PostsController::class)->only(['index', 'show']);
 Route::middleware(['auth'])->group(function () {
     Route::resource('categories', CategoriesController::class);
-    Route::resource('posts', PostsController::class);
+    Route::resource('posts', PostsController::class)->except(['index', 'show']);
     Route::resource('tags', TagsController::class);
     Route::resource('users', UsersController::class)->middleware('verifyAdmin');
     Route::get('profile', [UsersController::class, 'edit'])->name('users.edit-profile');

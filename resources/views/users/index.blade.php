@@ -19,6 +19,8 @@
                 <tr>
                     <td>
                         {{ $user->name }}
+                        <img src="{{ Gravatar::get($user->email) }}" alt="">
+
                     </td>
                     <td>
                         {{ $user->email }}
@@ -28,11 +30,11 @@
                     <td>{{ $user->about }}</td>
                     <td>
                         <div class="btn-group">
-                            <a onclick="deleteUser({{ $user->id }}, '{{ $user->fullname }}')" class="btn btn-danger">Delete</a>
+                            <a onclick="deleteUser({{ $user->id }}, '{{ $user->fullname }}')" class="btn btn-danger"><i class="fas fa-times"></i></a>
                             @if (!$user->isAdmin())
                             <form action="{{ route('users.give-admin', $user) }}" method="post">
-                            @csrf
-                            <button class="btn btn-secondary" type="submit">Give admin</button>
+                                @csrf
+                                <button class="btn btn-secondary" type="submit">Give admin</button>
                             </form>
                             @endif
                         </div>

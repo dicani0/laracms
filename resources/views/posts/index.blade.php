@@ -27,17 +27,18 @@
                     <td>{{ $post->category->name }}</td>
                     <td>
                         <div class="btn-group">
+                            <a class="btn btn-success" href="{{ route('posts.show', $post) }}"><i class="fas fa-info-circle"></i></a>
                             @if (!$post->trashed())
-                            <a class="btn btn-info" href="{{ route('posts.edit', $post) }}">Edit</a>
+                            <a class="btn btn-info" href="{{ route('posts.edit', $post) }}"><i class="fas fa-pen"></i></a>
                             @else
                             <form action="{{ route('restore-posts', $post) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <button type="submit" class="btn btn-info">Restore</button>
+                                <button type="submit" class="btn btn-info"><i class="fas fa-recycle"></i></button>
                             </form>
 
                             @endif
-                            <a onclick="deletePost({{ $post->id }}, '{{ $post->title }}')" class="btn btn-danger">{{ $post->trashed() ? 'Delete' : 'Trash' }}</a>
+                            <a onclick="deletePost({{ $post->id }}, '{{ $post->title }}')" class="btn btn-danger">{!! $post->trashed() ? '<i class="fas fa-times"></i>' : '<i class="fas fa-trash"></i>' !!}</a>
 
 
                         </div>

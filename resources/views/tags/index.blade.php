@@ -20,8 +20,8 @@
                     <td>{{ $tag->posts()->count() }}</td>
                     <td class="text-right">
                         <div class="btn-group">
-                            <a class="btn btn-info" href="{{ route('tags.edit', $tag) }}">Edit</a>
-                            <a class="btn btn-danger" onclick="deletetag({{ $tag->id }}, '{{ $tag->name }}')">Delete</a>
+                            <a class="btn btn-info" href="{{ route('tags.edit', $tag) }}"><i class="fas fa-pen"></i></a>
+                            <a class="btn btn-danger" onclick="deletetag({{ $tag->id }}, '{{ $tag->name }}')"><i class="fas fa-times"></i></a>
                         </div>
                     </td>
                 </tr>

@@ -20,8 +20,8 @@
                     <td>{{ $category->posts()->count() }}</td>
                     <td class="text-right">
                         <div class="btn-group">
-                            <a class="btn btn-info" href="{{ route('categories.edit', $category) }}">Edit</a>
-                            <a class="btn btn-danger" onclick="deleteCategory({{ $category->id }}, '{{ $category->name }}')">Delete</a>
+                            <a class="btn btn-info" href="{{ route('categories.edit', $category) }}"><i class="fas fa-pen"></i></a>
+                            <a class="btn btn-danger" onclick="deleteCategory({{ $category->id }}, '{{ $category->name }}')"><i class="fas fa-times"></i></a>
                         </div>
                     </td>
                 </tr>

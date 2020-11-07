@@ -59,7 +59,8 @@ class PostsController extends Controller
             'content' => $request->content,
             'image' => $imgPath,
             'published_at' => $request->published_at,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id,
+            'user_id' => auth()->user()->id
         ]);
         $post->tags()->attach($request->tags);
         session()->flash('success', 'Post created successfully!');
@@ -74,7 +75,7 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('posts.show')->with('post', $post);
     }
 
     /**
