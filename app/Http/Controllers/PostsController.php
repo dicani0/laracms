@@ -52,7 +52,7 @@ class PostsController extends Controller
             'category_id' => 'required'
         ]);
 
-        $imgPath = $request->image->store('posts');
+        $imgPath = $request->image->store('postimgs', 'public');
         $post = Post::create([
             'title' => $request->title,
             'description' => $request->description,
@@ -99,7 +99,7 @@ class PostsController extends Controller
     {
         $data = $request->only(['title', 'description', 'content', 'published_at', 'category_id']);
         if ($request->hasFile('image')) {
-            $imgPath = $request->image->store('posts');
+            $imgPath = $request->image->store('postimgs', 'public');
             $post->deleteImage();
             $data['image'] = $imgPath;
         }

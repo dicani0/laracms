@@ -2,44 +2,39 @@
 @section('content')
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        Posts
-        <a href="{{ route('posts.create') }}" class="btn btn-primary">Add post</a>
+        Users
     </div>
     <div class="card-body">
-        @if ($posts->count()>0)
+        @if ($users->count()>0)
         <table class="table">
             <thead>
-                <td>Image</td>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Actions</th>
+                <th>Full name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>About</th>
+                <th>Action</th>
             </thead>
             <tbody>
-                @foreach ($posts as $post)
+                @foreach ($users as $user)
                 <tr>
                     <td>
-                        <img class="img-fluid" src="{{ asset('storage/'.$post->image) }}" alt="">
+                        {{ $user->name }}
                     </td>
                     <td>
-                        {{ $post->title }}
+                        {{ $user->email }}
 
                     </td>
-                    <td>{{ $post->category->name }}</td>
+                    <td>{{ $user->role }}</td>
+                    <td>{{ $user->about }}</td>
                     <td>
                         <div class="btn-group">
-                            @if (!$post->trashed())
-                            <a class="btn btn-info" href="{{ route('posts.edit', $post) }}">Edit</a>
-                            @else
-                            <form action="{{ route('restore-posts', $post) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn btn-info">Restore</button>
+                            <a onclick="deleteUser({{ $user->id }}, '{{ $user->fullname }}')" class="btn btn-danger">Delete</a>
+                            @if (!$user->isAdmin())
+                            <form action="{{ route('users.give-admin', $user) }}" method="post">
+                            @csrf
+                            <button class="btn btn-secondary" type="submit">Give admin</button>
                             </form>
-
                             @endif
-                            <a onclick="deletePost({{ $post->id }}, '{{ $post->title }}')" class="btn btn-danger">{{ $post->trashed() ? 'Delete' : 'Trash' }}</a>
-
-
                         </div>
                     </td>
                 </tr>
@@ -47,17 +42,17 @@
             </tbody>
         </table>
         @else
-        <div class="alert alert-danger">No posts found!</div>
+        <div class="alert alert-danger">No users found!</div>
         @endif
 
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form action="" method="POST" id="deletePostForm">
+                <form action="" method="POST" id="deleteUserForm">
                     @csrf
                     @method('DELETE')
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Delete post</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Delete user</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -79,7 +74,7 @@
 @section('scripts')
 <script>
     function deletePost(id, title){
-        var form = $('#deletePostForm')[0];
+        var form = $('#deleteUserForm')[0];
         $('#modalBody').html('Delete post ' + title);
         form.action= '/posts/' + id;
         $('#deleteModal').modal('show');

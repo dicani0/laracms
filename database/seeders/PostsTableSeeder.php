@@ -8,7 +8,7 @@ use App\Models\Tag;
 use Faker\Provider\Lorem;
 use Illuminate\Database\Seeder;
 
-class PostSeeder extends Seeder
+class PostsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -29,6 +29,7 @@ class PostSeeder extends Seeder
                 'description' => 'Dolor sit amet consectetur',
                 'content' => 'Adipisicing elit. Nihil ex est beatae autem saepe nesciunt quis sit nam voluptatem enim repellendus, facilis officia fugiat repellat veritatis voluptas temporibus necessitatibus veniam?',
                 'category_id' => 1,
+                'image' => 'postimgs/hIQRwXBsbgUB010GH4f5gOPeHmnxnUbxr4vC5DjM.jpeg'
             ]
         );
         Post::create(
@@ -37,6 +38,7 @@ class PostSeeder extends Seeder
                 'description' => 'Dolor sit amet consectetur',
                 'content' => 'Adipisicing elit. Nihil ex est beatae autem saepe nesciunt quis sit nam voluptatem enim repellendus, facilis officia fugiat repellat veritatis voluptas temporibus necessitatibus veniam?',
                 'category_id' => 1,
+                'image' => 'postimgs/hIQRwXBsbgUB010GH4f5gOPeHmnxnUbxr4vC5DjM.jpeg'
             ]
         );
         Post::create(
@@ -45,6 +47,7 @@ class PostSeeder extends Seeder
                 'description' => 'Dolor sit amet consectetur',
                 'content' => 'Adipisicing elit. Nihil ex est beatae autem saepe nesciunt quis sit nam voluptatem enim repellendus, facilis officia fugiat repellat veritatis voluptas temporibus necessitatibus veniam?',
                 'category_id' => 1,
+                'image' => 'postimgs/hIQRwXBsbgUB010GH4f5gOPeHmnxnUbxr4vC5DjM.jpeg'
             ]
         )
             ->tags()
