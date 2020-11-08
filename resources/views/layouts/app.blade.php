@@ -100,6 +100,14 @@
                 @auth
                 <div class="row">
                     <div class="col-4">
+                        <form action="{{ route('posts.index') }}" method="get" class="mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="{{ request()->query('search')}}" name="search" placeholder="Search" name="" id="">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-dark"><i class="fab fa-searchengin"></i></button>
+                                </span>
+                            </div>
+                        </form>
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <a class="d-block" href="{{ route('posts.index') }}">Posts</a>

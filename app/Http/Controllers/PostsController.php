@@ -23,7 +23,20 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('posts.index')->with('posts', Post::all());
+        if ($search = request()->query('search')) {
+            return view('posts.index')->with('posts', Post::where('title', 'LIKE', "%{$search}%")->paginate(1));
+        }
+        return view('posts.index')->with('posts', Post::paginate(1));
+    }
+
+    public function indexWithCategory(Category $category)
+    {
+        return view('posts.index')->with('category', $category)->with('posts', $category->posts()->paginate(2));
+    }
+
+    public function indexWithTag(Tag $tag)
+    {
+        return view('posts.index')->with('tag', $tag)->with('posts', $tag->posts()->paginate(2));
     }
 
     /**

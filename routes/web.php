@@ -19,13 +19,15 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');;
 Route::resource('posts', PostsController::class)->only(['index', 'show']);
+Route::get('posts/category/{category}', [PostsController::class, 'indexWithCategory'])->name('postsWithCategory');
+Route::get('posts/tag/{tag}', [PostsController::class, 'indexWithTag'])->name('postsWithTag');
 Route::middleware(['auth'])->group(function () {
     Route::resource('categories', CategoriesController::class);
     Route::resource('posts', PostsController::class)->except(['index', 'show']);

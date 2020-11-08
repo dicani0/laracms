@@ -47,10 +47,10 @@
                 @endforeach
             </tbody>
         </table>
+
         @else
         <div class="alert alert-danger">No posts found!</div>
         @endif
-
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form action="" method="POST" id="deletePostForm">
@@ -74,6 +74,9 @@
                 </form>
             </div>
         </div>
+    </div>
+    <div class="card-footer">
+        {{$posts->links()}}
     </div>
 </div>
 @endsection

@@ -16,7 +16,7 @@
             <tbody>
                 @foreach ($categories as $category)
                 <tr>
-                    <td>{{ $category->name }} </td>
+                    <td><a href="{{ route('postsWithCategory', $category) }}">{{ $category->name }}</a></td>
                     <td>{{ $category->posts()->count() }}</td>
                     <td class="text-right">
                         <div class="btn-group">
